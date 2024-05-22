@@ -1,0 +1,19 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+
+    <p> Go <a href="{% url 'index' %}">Back Home </a></p>
+    <h2>Categories</h2>
+
+    {% if categories %}
+    <ul>
+        {% for category in categories %}
+        <li>Title: <a href="{% url 'category' category.id %}">{{category.name}}</a></li>
+       
+        {% endfor %}
+    </ul>
+    {% else %}
+    No category listed.
+    {% endif %}
+
+{% endblock %}

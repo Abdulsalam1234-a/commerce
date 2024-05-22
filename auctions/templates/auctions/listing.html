@@ -1,0 +1,57 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+<p>Go <a href="{% url 'index' %}">Back Home </a></p>
+    <h2>Listings: {{listItem.title}}</h2>
+    {% comment %} add to Watchlist {% endcomment %}
+    {% if is_in_watchlist %}
+    <p><a href="{% url 'removeWatchlist' listItem.id %}">Remove from Watchlist</a></p>
+    {% else %}
+    <p><a href="{% url 'addWatchlist' listItem.id %}">Add to Watchlist</a></p>
+    
+    {% endif %}
+    <ul>
+        <li>Title: {{listItem.title}}</li>
+        <li>Description: {{listItem.description}}</li>
+        <li>Start Bid: ${{listItem.start_bid}}</li>
+        <li>Owner: {{listItem.owner}}</li>
+        <li>Last Bid: ${{listItem.last_bid}}</li>
+        {% if listItem.is_active %}
+        <li>Place Bid: 
+            <form action="{% url 'bid' listItem.id %}" method="post">
+                {% if bidError %}
+                    <p style="color:red; font-weight:bold;">{{bidError}}</p>
+                {% endif %}
+                {% csrf_token %}
+                {{bidForm}}
+                <input type="submit" value="Place Bid">
+            </form>
+        </li>
+        {% endif %}
+        {% if owner %}
+        <li> is active: {{listItem.is_active}}</li>
+            {% if listItem.is_active %}
+            <p><a href="{% url 'closelisting' listItem.id %}" style="background:red; color:white; display:inline-block; padding: 10px; border-radius:10px"> Close Bid</a></p>
+            {% endif %}
+        {% endif %}
+    </ul>
+
+    <h2>Comments</h2>
+    {% if comments %}
+    <ul>
+        {% for comment in comments %}
+        <li><span style="font-weight:bold">by {{comment.author}}:</span> {{comment.comment}}
+            <small style="color:blue">{{comment.date|date:"M d, Y"}}</small>
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+        <p>No comments, be the first to comment</p>
+    {% endif %}
+    
+    <form action="{% url 'comment' listItem.id %}" method="post">
+        {% csrf_token %}
+        {{commentForm}}
+        <input type="submit" value="Post">
+    </form>
+{% endblock %}

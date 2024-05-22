@@ -1,0 +1,17 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <h2>Create Listings</h2>
+
+    {% if message %}
+    <p>{{message}}</p>
+    {% endif %}
+    <form action="{% url 'createlisting' %}" method="post">
+        {% csrf_token %}
+        <fieldset>
+            <legend> Create New Item</legend>
+            {{form.as_p}}
+            <input type="submit" value="Create">
+        </fieldset>
+    </form>
+{% endblock %}

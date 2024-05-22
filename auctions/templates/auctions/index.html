@@ -1,0 +1,17 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <h2>Active Listings</h2>
+
+    {% if activeListing %}
+    <ul>
+        {% for listItem in activeListing %}
+        <li>Title: <a href="{% url 'listing' listItem.id %}"> {{listItem.title}}</a></li>
+        <li>Description: {{listItem.description}}</li>
+        <li>Start Bid: ${{listItem.start_bid}}</li>
+        <li>Category: {{listItem.category}}</li>
+        <li>Owner: {{listItem.owner}}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+{% endblock %}

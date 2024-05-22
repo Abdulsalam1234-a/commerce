@@ -1,0 +1,20 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <h2>Watchlist</h2>
+
+    {% if watchlistItems %}
+    <ul>
+        {% for listItem in watchlistItems %}
+        <li>Title:<a href="{% url 'listing' listItem.id %}"> {{listItem.title}}</a></li>
+        <li>Description: {{listItem.description}}</li>
+        <li>Start Bid: ${{listItem.start_bid}}</li>
+        <li>Owner: {{listItem.owner}}</li>
+        <li>Last Bid: ${{listItem.last_bid}}</li>
+        <li> is active: {{listItem.is_active}}</li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    No item in the watchlist
+    {% endif %}
+{% endblock %}

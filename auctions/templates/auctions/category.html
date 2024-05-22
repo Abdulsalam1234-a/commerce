@@ -1,0 +1,27 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+<p>Go <a href="{% url 'categories' %}">Back </a> Go <a href="{% url 'index' %}">Back Home </a></p>
+    <h2>Category: {{name}}</h2>
+
+    {% for listItem in category_listings  %}
+    <ul>
+        {% if listItem.is_active %}
+        
+            <li>Title: <a href="{% url 'listing' listItem.id %}">{{listItem.title}}</a></li>
+            <li>Description: {{listItem.description}}</li>
+            <li>Start Bid: {{listItem.start_bid}}</li>
+            <li>Owner: {{listItem.owner}}</li>
+            {% if owner %}
+            <li> is active: {{listItem.is_active}}</li>
+                {% if listItem.is_active %}
+                <p><a href="{% url 'closelisting' listItem.id %}" style="background:red; color:white; display:inline-block; padding: 10px; border-radius:10px"> Close Bid</a></p>
+                {% endif %}
+            {% endif %}
+
+        {% endif %}
+    </ul>
+    {%empty%}
+    No item under this category
+    {% endfor %}
+{% endblock %}
